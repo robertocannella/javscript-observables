@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit {
     });
     this.subscription = myCustomObservable.subscribe((count:number)=>{
       console.log(count)
+    }, (error: Error)=>{
+      alert(error.message)
     });
   }
   ngOnDestroy(){
