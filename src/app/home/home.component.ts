@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { interval, ObjectUnsubscribedError, Observable, Observer, Subject, Subscriber, Subscription } from 'rxjs';
-
+import { Observable, Observer, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
       let count=0;
         setInterval(()=>{
           observer.next(count);
-          if (count === 2){
+          if (count === 5){
             observer.complete();
           }
           if (count > 3){
@@ -27,8 +27,15 @@ export class HomeComponent implements OnInit {
           count++;
         },1000);
     });
-    this.subscription = myCustomObservable.subscribe((count:number)=>{
-      console.log(count)
+
+    myCustomObservable.pipe(map((data:number)=>{
+      return 'Round' + (data + 1);
+    }))
+
+    this.subscription = myCustomObservable.pipe(map((data:number)=>{
+      return `Round: ${data + 1}`;
+    })).subscribe((data:string)=>{
+      console.log(data)
     }, (error: Error)=>{
       alert(error.message)
     }, ()=>{
