@@ -17,7 +17,10 @@ export class HomeComponent implements OnInit {
     const myCustomObservable = new Observable((observer: Observer<number>)=>{
       let count=0;
         setInterval(()=>{
-          observer.next(count)
+          observer.next(count);
+          if (count > 3){
+            observer.error(new Error('Count is greater than 3!'));
+          }
           count++;
         },1000);
     });
