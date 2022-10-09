@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
       let count=0;
         setInterval(()=>{
           observer.next(count);
+          if (count === 2){
+            observer.complete();
+          }
           if (count > 3){
             observer.error(new Error('Count is greater than 3!'));
           }
@@ -28,11 +31,14 @@ export class HomeComponent implements OnInit {
       console.log(count)
     }, (error: Error)=>{
       alert(error.message)
+    }, ()=>{
+      console.log('Completed')
     });
   }
   ngOnDestroy(){
     this.subscription.unsubscribe();
     
   }
+  log(number:number){}
 
 }
