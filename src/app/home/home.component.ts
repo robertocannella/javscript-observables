@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Observer, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map,filter } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
       let count=0;
         setInterval(()=>{
           observer.next(count);
-          if (count === 5){
+          if (count === 2){
             observer.complete();
           }
           if (count > 3){
@@ -32,8 +32,10 @@ export class HomeComponent implements OnInit {
       return 'Round' + (data + 1);
     }))
 
-    this.subscription = myCustomObservable.pipe(map((data:number)=>{
-      return `Round: ${data + 1}`;
+    this.subscription = myCustomObservable.pipe(filter((data: number)=>{
+      return data > 0;
+    }),map((data:number)=>{
+      return `Round: ${data }`;
     })).subscribe((data:string)=>{
       console.log(data)
     }, (error: Error)=>{
